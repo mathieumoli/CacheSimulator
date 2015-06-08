@@ -36,6 +36,11 @@ On trouve un bloc, Si M = 1
 	On enregistre
 	puis V = 1 et M = 0
 
+if(nbecriture >= NSYNC)
+for(i = 0; i < nbblocks; i++)
+	if(block.M == 1)
+		transfert vers fichier;
+
 Ce projet est developpé par : Etienne Laskar, [Pierre Massanès](https://github.com/PierreMassanes), [Mathieu Molinengo](https://github.com/mathieumoli), [Florian Muller](https://github.com/JuIngong).
 
 Graphe de metric du projet : 
