@@ -1,11 +1,19 @@
 #include "strategy.h"
 #include "low_cache.h"
 
-
+struct pstrategy{
+	int nderef;
+	int cpt;
+}
 
 //! Creation et initialisation de la stratégie (invoqué par la création de cache).
 void *Strategy_Create(struct Cache *pcache){
+	struct pstrategy *strategy = malloc(sizeof(struct pstrategy));
 
+    	strategy->nderef = pcache->nderef;
+    	strategy->cpt = 0;
+
+   	return strategy;
 }
 
 //! Fermeture de la stratégie.
