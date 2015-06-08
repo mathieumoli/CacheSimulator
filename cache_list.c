@@ -53,6 +53,7 @@ struct Cache_Block_Header *Cache_List_Remove_First(struct Cache_List *list){
 
 	next=elementActu->next;
 	next->prev=NULL;
+	Cache_List_Remove(elementActu);
 	return next->pheader;
 }
 /*! Retrait du dernier élément */
@@ -64,7 +65,8 @@ struct Cache_Block_Header *Cache_List_Remove_Last(struct Cache_List *list){
 	}
 
 	avantDer=elementActu->prev;
-	elementActu->next=NULL;
+	avantDer->next=NULL;
+	Cache_List_Remove(elementActu);
 	return avantDer->pheader;
 }
 /*! Retrait d'un élément quelconque */
@@ -85,7 +87,13 @@ struct Cache_Block_Header *Cache_List_Remove(struct Cache_List *list,
 	if(blocRecherche==NULL){
 		return NULL;
 	}else {
-	return blocRecherche->pheader;
+			Cache_List_Remove(elementActu);
+
+		struct Cache_list *previous=blocRecherche->prev;
+		struct Cache_list *next=blocRecherche->next;
+		previous->next=next;
+		Cache_List_Remove(blocRecherche);
+		return pbh;
 	}
 
 }
