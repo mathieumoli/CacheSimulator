@@ -31,6 +31,14 @@ void Cache_List_Append(struct Cache_List *list, struct Cache_Block_Header *pbh){
 /*! Insertion d'un élément au début*/
 void Cache_List_Prepend(struct Cache_List *list, struct Cache_Block_Header *pbh){
 
+	//dans le doute on essaye de remonter jusqu'au premier element de la liste
+	struct Cache_list *chainon=list;
+	while(chainon->prev){
+		chainon=chainon->prev;
+	}
+	struct Cache_list *newChainon= Cache_List_Create();
+	newChainon->phheader=pbh;
+	chainon->prev=newChainon;
 }
 
 /*! Retrait du premier élément */
