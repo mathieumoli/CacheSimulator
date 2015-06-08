@@ -29,9 +29,8 @@ void Strategy_Invalidate(struct Cache *pcache){
 struct Cache_Block_Header *Strategy_Replace_Block(struct Cache *pcache){
 	struct Cache_List *list = LRU(pcache);
     struct Cache_Block_Header *blocInvalide;
-²
      /* je cherche un bloc invalide */
-    if ((blocinvalide = Get_Free_Block(pcache)) != NULL)
+    if ((blocInvalide = Get_Free_Block(pcache)) != NULL)
     {
         /* on ajoute le bloc invalide*/
         Cache_List_Append(list, blocInvalide);
