@@ -1,21 +1,31 @@
+/*
+*
+* Strategie Least Recently Used (LRU)
+*
+*/
+
+
+#include "cache_list.h"
 #include "strategy.h"
 #include "low_cache.h"
 
-
+int pointeurVersListe;
+int pointeurVersCache;
 
 //! Creation et initialisation de la stratégie (invoqué par la création de cache).
 void *Strategy_Create(struct Cache *pcache){
-
+	pointeurVersCache= pcache;
+	pointeurVersListe= Cache_List_Create();
 }
 
 //! Fermeture de la stratégie.
 void Strategy_Close(struct Cache *pcache){
-
+	Cache_Liste_Delete((struct Cache_List *)((pcache)->pstrategy));
 }
 
 //! Fonction "réflexe" lors de l'invalidation du cache.
 void Strategy_Invalidate(struct Cache *pcache){
-
+	Cache_List_Clear((struct Cache_List *)((pcache)->pstrategy));
 }
 
 //! Algorithme de remplacement de bloc.
