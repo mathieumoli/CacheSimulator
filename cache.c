@@ -7,6 +7,7 @@ struct Cache *Cache_Create(const char *fic, unsigned nblocks, unsigned nrecords,
 	c->nrecords = nrecords;
 	c->recordsz = recordsz;
 	c->nderef = nderef;
+	c->headers = malloc(sizeOf(Cache_Block_Header));
 }
 
 //! Fermeture (destruction) du cache.
