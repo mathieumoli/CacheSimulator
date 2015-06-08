@@ -43,22 +43,52 @@ void Cache_List_Prepend(struct Cache_List *list, struct Cache_Block_Header *pbh)
 
 /*! Retrait du premier élément */
 struct Cache_Block_Header *Cache_List_Remove_First(struct Cache_List *list){
+	
 
-struct Cache_list *premier=list;
-struct Cache_list *premier=second;
-	while(premier->prev){
-		premier=premier->prev;
+	struct Cache_List *elementActu=list;
+	struct Cache_List *next;
+	while(elementActu->prev){
+		elementActu=elementActu->prev;
 	}
 
-	second=premier->next;
-	second->prev=NULL;
-	return second;
+	next=elementActu->next;
+	next->prev=NULL;
+	return next->pheader;
 }
 /*! Retrait du dernier élément */
-struct Cache_Block_Header *Cache_List_Remove_Last(struct Cache_List *list);
+struct Cache_Block_Header *Cache_List_Remove_Last(struct Cache_List *list){
+	struct Cache_list *elementActu=list;
+	struct Cache_list *avantDer;
+	while(elementActu->next){
+		elementActu=elementActu->next;
+	}
+
+	avantDer=elementActu->prev;
+	elementActu->next=NULL;
+	return avantDer->pheader;
+}
 /*! Retrait d'un élément quelconque */
 struct Cache_Block_Header *Cache_List_Remove(struct Cache_List *list,
-                                             struct Cache_Block_Header *pbh);
+                                             struct Cache_Block_Header *pbh){
+	struct Cache_list *elementActu=list;
+	struct Cache_list *blocRecherche;
+
+	// si on arrive en fin de liste ou qu'on trouve pbh
+	while(premier->prev || blocRecherche!=NULL)
+	{
+		if(premier->pheader==pbh){
+			 blocRecherche=premier;
+		}else
+		premier=premier->next;
+	}
+	//si la liste ne contient pas pbh
+	if(blocRecherche==NULL){
+		return NULL;
+	}else {
+	return blocRecherche->pheader;
+	}
+
+}
 
 /*! Remise en l'état de liste vide */
 void Cache_List_Clear(struct Cache_List *list);
