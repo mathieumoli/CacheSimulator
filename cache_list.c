@@ -100,7 +100,14 @@ void Cache_List_Clear(struct Cache_List *list){
 }
 
 /*! Test de liste vide */
-bool Cache_List_Is_Empty(struct Cache_List *list);
+bool Cache_List_Is_Empty(struct Cache_List *list){
+	if(!list->next && list->header==NULL){
+		return true;
+	}
+	else{ 
+		return false;
+	}
+}
 
 /*! Transférer un élément à la fin */
 void Cache_List_Move_To_End(struct Cache_List *list,
