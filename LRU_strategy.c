@@ -37,8 +37,8 @@ struct Cache_Block_Header *Strategy_Replace_Block(struct Cache *pcache){
         return blocInvalide;
     }
 
-    /* sinon j'enleve le dernier*/
-    blocInvalide = Cache_List_Remove_Last(list);
+    /* sinon je prend le premier element et je le met a la fin*/
+    blocInvalide = Cache_List_Remove_First(list);
     Cache_List_Append(list, blocInvalide);
 
     return blocInvalide; 
