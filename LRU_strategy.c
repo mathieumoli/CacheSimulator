@@ -17,7 +17,7 @@ void *Strategy_Create(struct Cache *pcache){
 
 //! Fermeture de la stratégie.
 void Strategy_Close(struct Cache *pcache){
-	Cache_Liste_Delete(LRU(pcache));
+	Cache_List_Delete(LRU(pcache));
 }
 
 //! Fonction "réflexe" lors de l'invalidation du cache.
@@ -38,7 +38,7 @@ struct Cache_Block_Header *Strategy_Replace_Block(struct Cache *pcache){
         return blocInvalide;
     }
 
-    /* sinon j'enleve le premier*/
+    /* sinon j'enleve le dernier*/
     blocInvalide = Cache_List_Remove_Last(list);
     Cache_List_Append(list, blocInvalide);
 
@@ -47,12 +47,12 @@ struct Cache_Block_Header *Strategy_Replace_Block(struct Cache *pcache){
 
 //! Fonction "réflexe" lors de la lecture.
 void Strategy_Read(struct Cache *pcache, struct Cache_Block_Header *pb){
-	Cache_Liste_Move_To_End(LRU(pcache), pb);
+	Cache_List_Move_To_End(LRU(pcache), pb);
 }
 
 //! Fonction "réflexe" lors de l'écriture.
 void Strategy_Write(struct Cache *pcache, struct Cache_Block_Header *pb){
-	Cache_Liste_Move_To_End(LRU(pcache), pb);
+	Cache_List_Move_To_End(LRU(pcache), pb);
 }
 
 //! Identification de la stratégie.
