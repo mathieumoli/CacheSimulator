@@ -17,17 +17,20 @@ void *Strategy_Create(struct Cache *pcache){
 //! Fermeture de la stratégie.
 void Strategy_Close(struct Cache *pcache){
 
-	Cache_Liste_Delete(pointeurversListe);
+	Cache_Liste_Delete((struct Cache_List *)((pcache)->pstrategy));
 
 }
 
 //! Fonction "réflexe" lors de l'invalidation du cache.
 void Strategy_Invalidate(struct Cache *pcache){
 
+	Cache_List_Clear((struct Cache_List *)((pcache)->pstrategy));
+
 }
 
 //! Algorithme de remplacement de bloc.
 struct Cache_Block_Header *Strategy_Replace_Block(struct Cache *pcache){
+	
 return null;
 }
 
