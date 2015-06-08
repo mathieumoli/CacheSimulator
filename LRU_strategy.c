@@ -30,7 +30,22 @@ void Strategy_Invalidate(struct Cache *pcache){
 
 //! Algorithme de remplacement de bloc.
 struct Cache_Block_Header *Strategy_Replace_Block(struct Cache *pcache){
-return null;
+	struct Cache_List *list = (struct Cache_List *)((pcache)->pstrategy);
+    struct Cache_Block_Header *blocInvalide;
+
+     /* je cherche un bloc invalide */
+    if ((blocinvalide = Get_Free_Block(pcache)) != NULL)
+    {
+        /* on ajoute le bloc invalide*/
+        Cache_List_Append(list, blocInvalide);
+        return blocInvalide;
+    }
+
+    /* sinon j'enleve le premier*/
+    blocInvalide = Cache_List_Remove_Last(list);
+    Cache_List_Append(list, blocInvalide);
+
+    return blocInvalide; 
 }
 
 //! Fonction "réflexe" lors de la lecture.
