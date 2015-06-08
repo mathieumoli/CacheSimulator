@@ -1,6 +1,5 @@
 #include "strategy.h"
 #include "low_cache.h"
-#include "time.h"
 #include "cache_list.h"
 
 int pointeurVersListe;
@@ -17,6 +16,8 @@ void *Strategy_Create(struct Cache *pcache){
 
 //! Fermeture de la stratégie.
 void Strategy_Close(struct Cache *pcache){
+
+	Cache_Liste_Delete(pointeurversListe);
 
 }
 
