@@ -8,14 +8,14 @@
 void *Strategy_Create(struct Cache *pcache){
 
 	
-	return pointeurVersListe= Cache_List_Create();	
+	return Cache_List_Create();	
 
 }
 
 //! Fermeture de la stratégie.
 void Strategy_Close(struct Cache *pcache){
 
-	Cache_Liste_Delete(FIFO(pcache));
+	Cache_List_Delete(FIFO(pcache));
 
 }
 
@@ -33,7 +33,7 @@ struct Cache_Block_Header *Strategy_Replace_Block(struct Cache *pcache){
     struct Cache_Block_Header *blocInvalide;
 
      /* je cherche un bloc invalide */
-    if ((blocinvalide = Get_Free_Block(pcache)) != NULL)
+    if ((blocInvalide = Get_Free_Block(pcache)) != NULL)
     {
         /* on ajoute le bloc invalide*/
         Cache_List_Append(list, blocInvalide);
