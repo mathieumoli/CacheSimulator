@@ -16,6 +16,7 @@ int pointeurVersCache;
 void *Strategy_Create(struct Cache *pcache){
 	pointeurVersCache= pcache;
 	pointeurVersListe= Cache_List_Create();
+	return pointeurVersListe;
 }
 
 //! Fermeture de la stratégie.
@@ -50,12 +51,12 @@ struct Cache_Block_Header *Strategy_Replace_Block(struct Cache *pcache){
 
 //! Fonction "réflexe" lors de la lecture.
 void Strategy_Read(struct Cache *pcache, struct Cache_Block_Header *pb){
-
+	Cache_Liste_Move_To_End((struct Cache_List *)((pcache)->pstrategy), pb);
 }
 
 //! Fonction "réflexe" lors de l'écriture.
 void Strategy_Write(struct Cache *pcache, struct Cache_Block_Header *pb){
-
+	Cache_Liste_Move_To_End((struct Cache_List *)((pcache)->pstrategy), pb);
 }
 
 //! Identification de la stratégie.
