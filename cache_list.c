@@ -42,7 +42,18 @@ void Cache_List_Prepend(struct Cache_List *list, struct Cache_Block_Header *pbh)
 }
 
 /*! Retrait du premier élément */
-struct Cache_Block_Header *Cache_List_Remove_First(struct Cache_List *list);
+struct Cache_Block_Header *Cache_List_Remove_First(struct Cache_List *list){
+
+struct Cache_list *premier=list;
+struct Cache_list *premier=second;
+	while(premier->prev){
+		premier=premier->prev;
+	}
+
+	second=premier->next;
+	second->prev=NULL;
+	return second;
+}
 /*! Retrait du dernier élément */
 struct Cache_Block_Header *Cache_List_Remove_Last(struct Cache_List *list);
 /*! Retrait d'un élément quelconque */
