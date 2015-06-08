@@ -1,10 +1,17 @@
 #include "strategy.h"
 #include "low_cache.h"
 #include "time.h"
+#include "cache_list.h"
+
+int pointeurVersListe;
+int pointeurVersCache;
 
 
 //! Creation et initialisation de la stratégie (invoqué par la création de cache).
 void *Strategy_Create(struct Cache *pcache){
+
+	pointeurVersCache= pcache;
+	pointeurVersListe= Cache_List_Create();	
 
 }
 
