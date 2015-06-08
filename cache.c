@@ -21,7 +21,9 @@ Cache_Error Cache_Sync(struct Cache *pcache){
 
 //! Invalidation du cache.
 Cache_Error Cache_Invalidate(struct Cache *pcache){
-
+	int i;
+	for(i = 0 ; i < pcache->nblocks ; i++)
+		pcache->flags &= ~VALID;
 }
 
 //! Lecture  (à travers le cache).
