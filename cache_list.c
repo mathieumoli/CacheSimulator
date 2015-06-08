@@ -18,6 +18,15 @@ void Cache_List_Delete(struct Cache_List *list){
 /*! Insertion d'un élément à la fin */
 void Cache_List_Append(struct Cache_List *list, struct Cache_Block_Header *pbh){
 
+	//positionnement sur le dernier element
+	struct Cache_list *chainon=list;
+	while(chainon->next){
+		chainon=chainon->next;
+	}
+	struct Cache_list *newChainon= Cache_List_Create();
+	newChainon->phheader=pbh;
+	chainon->next=newChainon;
+
 }
 /*! Insertion d'un élément au début*/
 void Cache_List_Prepend(struct Cache_List *list, struct Cache_Block_Header *pbh){
