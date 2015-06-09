@@ -7,7 +7,6 @@
 //! Creation et initialisation de la stratégie (invoqué par la création de cache).
 void *Strategy_Create(struct Cache *pcache){
 
-	
 	return Cache_List_Create();	
 
 }
@@ -27,8 +26,7 @@ void Strategy_Invalidate(struct Cache *pcache){
 }
 
 //! Algorithme de remplacement de bloc.
-struct Cache_Block_Header *Strategy_Replace_Block(struct Cache *pcache){
-	
+struct Cache_Block_Header *Strategy_Replace_Block(struct Cache *pcache){	
     struct Cache_List *list = FIFO(pcache);
     struct Cache_Block_Header *blocInvalide;
 
