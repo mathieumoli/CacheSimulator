@@ -2,8 +2,8 @@
 #include "low_cache.h"
 
 struct pstrategy{
-	int nderef;
-	int cpt;
+	unsigned nderef;
+	unsigned cpt;
 };
 
 void initialize_flag_R(struct Cache *pcache);
