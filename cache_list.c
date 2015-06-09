@@ -100,9 +100,9 @@ struct Cache_Block_Header *Cache_List_Remove_First(struct Cache_List *list){
 }
 /*! Retrait du dernier élément */
 struct Cache_Block_Header *Cache_List_Remove_Last(struct Cache_List *list){
-	struct Cache_List *elementActu=list;
-	struct Cache_List *avantDer;
 	if(!Cache_List_Is_Empty(list)){
+		struct Cache_List *elementActu=list;
+		struct Cache_List *avantDer;
 		if(elementActu-> next == NULL && elementActu -> prev == NULL){
 		list = Cache_List_Create();
 		return elementActu->pheader;
@@ -119,8 +119,8 @@ struct Cache_Block_Header *Cache_List_Remove_Last(struct Cache_List *list){
 }
 /*! Retrait d'un élément quelconque */
 struct Cache_Block_Header *Cache_List_Remove(struct Cache_List *list,struct Cache_Block_Header *pbh){
-	struct Cache_List *elementActu=list;
 	if(!Cache_List_Is_Empty(list)){
+		struct Cache_List *elementActu=list;
 		if(elementActu-> next == NULL && elementActu -> prev == NULL){
 		list = Cache_List_Create();
 		return elementActu->pheader;
@@ -136,7 +136,10 @@ struct Cache_Block_Header *Cache_List_Remove(struct Cache_List *list,struct Cach
 	}else {
 
 		struct Cache_List *previous=elementActu->prev;
+		struct Cache_List *next=elementActu->next;
+
 		previous->next=elementActu->next;
+		next->prev=elementActu->prev;
 		elementActu->next=NULL;
 		elementActu->prev=NULL;
 		return elementActu->pheader;
@@ -158,17 +161,18 @@ void Cache_List_Clear(struct Cache_List *list){
 
 /*! Transférer un élément à la fin */
 void Cache_List_Move_To_End(struct Cache_List *list,struct Cache_Block_Header *pbh){
- 	if(list->pheader!=pbh){
+ 	
  	Cache_List_Remove(list,pbh);
  	Cache_List_Append(list,pbh);
- 	}
+ 	
+ 	
 
 
 }
 /*! Transférer un élément  au début */
 void Cache_List_Move_To_Begin(struct Cache_List *list,struct Cache_Block_Header *pbh){
 	if(list->pheader!=pbh){
-	Cache_List_Remove(list,pbh);
+ 	Cache_List_Remove(list,pbh);
 	Cache_List_Prepend(list,pbh);
 	}
 }
