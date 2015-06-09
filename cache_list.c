@@ -87,7 +87,7 @@ struct Cache_Block_Header *Cache_List_Remove_First(struct Cache_List *list){
 	struct Cache_List *next;
 	if(elementActu-> next == NULL && elementActu -> prev == NULL){
 		Cache_List_Clear(list);
-		return elementActu;
+		return elementActu->pheader;
 	}
 	next=elementActu->next;
 	next->prev=NULL;
@@ -103,7 +103,7 @@ struct Cache_Block_Header *Cache_List_Remove_Last(struct Cache_List *list){
 	if(!Cache_List_Is_Empty(list)){
 		if(elementActu-> next == NULL && elementActu -> prev == NULL){
 		Cache_List_Clear(list);
-		return elementActu;
+		return elementActu->pheader;
 	}
 	for(elementActu; elementActu->next != NULL; elementActu = elementActu->next){
 	}
