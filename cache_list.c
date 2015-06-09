@@ -18,9 +18,17 @@ struct Cache_List *Cache_List_Create(){
 
 /*! Destruction d'une liste de blocs */
 void Cache_List_Delete(struct Cache_List *list){
-
-	free(list);
-	printf("coucou Delete");
+	struct Cache_List *elementActu = list;
+	list->prev=NULL;
+	struct Cache_List *precedent;
+	// je me mets sur le dernier element
+	for(elementActu; elementActu->next != NULL; elementActu = elementActu->next){
+	}
+	
+	for(elementActu; elementActu->prev != NULL; elementActu = elementActu->prev){
+		precedent=elementActu->prev;
+		free(elementActu);
+	}
 
 
 }
