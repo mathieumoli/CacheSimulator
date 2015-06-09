@@ -5,6 +5,19 @@
 #include "cache.h"
 #include "low_cache.h"
 
+/*! Test de liste vide */
+bool Cache_List_Is_Empty(struct Cache_List *list){
+	if(list->next==NULL){
+		if(list->pheader==NULL){
+		return true;
+	}
+		return false;
+	}
+	else{ 
+		return false;
+	}
+}
+
 /*! Création d'une liste de blocs */
 struct Cache_List *Cache_List_Create(){
 
@@ -24,10 +37,10 @@ void Cache_List_Delete(struct Cache_List *list){
 	// je me mets sur le dernier element
 	for(elementActu; elementActu->next != NULL; elementActu = elementActu->next){
 	}
-	
-	for(elementActu; elementActu->prev != NULL; elementActu = elementActu->prev){
+	while(elementActu->prev != NULL){
 		precedent=elementActu->prev;
 		free(elementActu);
+		elementActu=precedent;
 	}
 
 
@@ -140,19 +153,6 @@ void Cache_List_Clear(struct Cache_List *list){
 	}
 
 	list->pheader=NULL;
-	}
-}
-
-/*! Test de liste vide */
-bool Cache_List_Is_Empty(struct Cache_List *list){
-	if(list->next==NULL){
-		if(list->pheader==NULL){
-		return true;
-	}
-		return false;
-	}
-	else{ 
-		return false;
 	}
 }
 
