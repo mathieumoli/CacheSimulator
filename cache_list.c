@@ -105,45 +105,25 @@ struct Cache_Block_Header *Cache_List_Remove_Last(struct Cache_List *list){
 }
 /*! Retrait d'un élément quelconque */
 struct Cache_Block_Header *Cache_List_Remove(struct Cache_List *list,struct Cache_Block_Header *pbh){
-	if(!Cache_List_Is_Empty(list)){
 	struct Cache_List *elementActu=list;
-	struct Cache_List *blocRecherche;
 
 	// si on arrive en fin de liste ou qu'on trouve pbh
-	while(elementActu->next!=NULL)
-	{
-		if(elementActu->pheader==pbh){
-			 blocRecherche=elementActu;
-			 break;
-		}else{
+	
+	for(elementActu; elementActu->next != NULL || elementActu->pheader != pbh; elementActu = elementActu->next){
 
-		elementActu=elementActu->next;
-		}
 	}
 	//si la liste ne contient pas pbh
-	if(blocRecherche==NULL){
+	if(elementActu==NULL){
 		return NULL;
 	}else {
 
-		if(blocRecherche->next==NULL){
-			return Cache_List_Remove_Last(list);
-		}else{
-			if (blocRecherche->prev==NULL)
-			{
-				return Cache_List_Remove_First(list);
-			}
-			else{
-			struct Cache_List *previous=blocRecherche->prev;
-			previous->next=blocRecherche->next;
-			blocRecherche->next=NULL;
-			blocRecherche->prev=NULL;
-			blocRecherche->pheader=NULL;
-			return pbh;
-			}
-		}
+		struct Cache_List *previous=elementActu->prev;
+		previous->next=elementActu->next;
+		elementActu->next=NULL;
+		elementActu->prev=NULL;
+		elementActu->pheader=NULL;
+		return pbh;
 	}
-}
-return NULL;
 
 }
 
