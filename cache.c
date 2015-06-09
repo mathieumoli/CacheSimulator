@@ -1,8 +1,11 @@
 #include "low_cache.h"
 #include "strategy.h"
 
+// Compteur d'accès (lecture/écriture)
+int nacces;
+
 struct Cache *Cache_Create(const char *fic, unsigned nblocks, unsigned nrecords,size_t recordsz, unsigned nderef){
-	Cache *c = malloc(sizeof(Cache));
+	Cache *c = malloc(sizeof(struct Cache));
 	c->fp = fopen(fic, "r+");
 	c->file = fic;
 	c->nblocks = nblocks;
@@ -11,9 +14,12 @@ struct Cache *Cache_Create(const char *fic, unsigned nblocks, unsigned nrecords,
 	c->blocksz = nrecords * recordsz;
 	c->nderef = nderef;
 	c->pstrategy = Strategy_Create(c);
-	//c->instrument
+	//c->instrument = malloc(sizeof(struct Cache_Instrument));
+	Cache_Get_Instrument(c);
 	//c->pfree = malloc(sizeof(Cache_Block_Header));
-	c->headers = malloc(sizeof(Cache_Block_Header)*nblocks);
+	c->headers = malloc(sizeof(struct Cache_Block_Header)*nblocks);
+
+	nacces = 0;
 
 	return c;	
 }
@@ -24,8 +30,11 @@ Cache_Error Cache_Close(struct Cache *pcache){
 		return CACHE_KO;
 	if(fclose(pcache->fp) != 0)
 		return CACHE_KO;
+
 	Strategy_Close(pcache);
-	free(c->headers);
+	
+	free(pcache->instrument);
+	free(pcache->headers);
 	free(pcache);
 
 	return CACHE_OK;
@@ -34,6 +43,13 @@ Cache_Error Cache_Close(struct Cache *pcache){
 //! Synchronisation du cache.
 Cache_Error Cache_Sync(struct Cache *pcache){
 	int i;
+
+	// Réinitialisation du compteur d'accès (lecture/écriture)
+	nacces = 0;
+
+	// Incrémentation du nombre de synchronisations
+	pcache->instrument.n_sync++;
+
 	// On parcourt tous les blocs du cache
 	for(i = 0 ; i < pcache->nblocks ; i++){
 		// Si le bit M du bloc est à 1
@@ -78,11 +94,20 @@ Cache_Error Cache_Read(struct Cache *pcache, int irfile, void *precord){
 		if(snprintf(buff, pcache->recordsz, data) < 0)
 			return CACHE_KO;
 
-		return CACHE_OK;
+		// L'enregistrement est dans le cache, on augment n_hits
+		pcache->instrument.n_hits++;
+
 	// Si le bloc n'est pas valide, utilise la stratégie de remplacement
 	}else{
 		block = Strategy_Replace_Block(pcache);
 	}
+
+	// Incrémentation du nombre de lectures
+	pcache->instrument.n_read++;
+	
+	// Gestion de la synchronisation
+	if(++nacces == NSYNC)
+		Cache_Sync(pcache);
 
 	// Fonction "réflexe" lors de la lecture.
 	Strategy_Read(pcache, block);
@@ -107,16 +132,36 @@ Cache_Error Cache_Write(struct Cache *pcache, int irfile, const void *precord){
 		
 		// Un enregistrement a été modifié, le flag MODIF du bloc passe à 1
 		block->flags |= MODIF;
+		
+		// L'enregistrement est dans le cache, on augment n_hits
+		pcache->instrument.n_hits++;
 
-		return CACHE_OK;
 	// Si le bloc n'est pas valide, utilise la stratégie de remplacement
 	}else{
 		block = Strategy_Replace_Block(pcache);
 	}
 
+	// Incrémentation du nombre d'écritures
+	pcache->instrument.n_write++;
+
+	// Gestion de la synchronisation
+	if(++nacces == NSYNC)
+		Cache_Sync(pcache);
+
 	// Fonction "réflexe" lors de l'écriture.
 	Strategy_Write(pcache, block);
 
 	return CACHE_OK;
+}
 
+struct Cache_Instrument *Cache_Get_Instrument(struct Cache *pcache){
+	struct Cache_Instrument instr = pcache->instrument;
+
+	pcache->instrument.n_reads = 0;
+	pcache->instrument.n_writes = 0;
+	pcache->instrument.n_hits = 0;
+	pcache->instrument.n_syncs = 0;
+	pcache->instrument.n_deref = 0;
+
+	return &instr;
 }
