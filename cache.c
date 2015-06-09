@@ -17,7 +17,7 @@ Cache_Error Cache_Close(struct Cache *pcache){
 
 //! Synchronisation du cache.
 Cache_Error Cache_Sync(struct Cache *pcache){
-
+	
 }
 
 //! Invalidation du cache.
