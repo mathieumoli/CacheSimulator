@@ -71,7 +71,7 @@ Cache_Error Cache_Read(struct Cache *pcache, int irfile, void *precord){
 
 	// Si le bloc contenant l'enregistrement est valide (V = 1)
 	if(block->flags & VALID > 0){
-		// Addresse de l'enregistrement
+		// Addresse de l'enregistrement dans le cache
 		char *data = ADDR(pcache, irfile, block);
 
 		// Ecriture de l'enregistrement dans le buffer
@@ -92,5 +92,31 @@ Cache_Error Cache_Read(struct Cache *pcache, int irfile, void *precord){
 
 //! Écriture (à travers le cache).
 Cache_Error Cache_Write(struct Cache *pcache, int irfile, const void *precord){
+	char *buff = (char*)precord;
+	int ib = irfile / pcache->nrecords; // Indice du bloc contenant l'enregistrement
+	struct Cache_Block_Header *block = pcache->headers[ib]; // Bloc contenant l'enregistrement
+
+	// Si le bloc contenant l'enregistrement est valide (V = 1)
+	if(block->flags & VALID > 0){
+		// Addresse de l'enregistrement dans le cache
+		char *data = ADDR(pcache, irfile, block);
+
+		// Ecriture de l'enregistrement dans le buffer
+		if(snprintf(data, pcache->recordsz, buff) < 0)
+			return CACHE_KO;
+		
+		// Un enregistrement a été modifié, le flag MODIF du bloc passe à 1
+		block->flags |= MODIF;
+
+		return CACHE_OK;
+	// Si le bloc n'est pas valide, utilise la stratégie de remplacement
+	}else{
+		block = Strategy_Replace_Block(pcache);
+	}
+
+	// Fonction "réflexe" lors de l'écriture.
+	Strategy_Write(pcache, block);
+
+	return CACHE_OK;
 
 }
