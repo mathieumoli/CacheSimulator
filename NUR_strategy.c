@@ -100,7 +100,7 @@ void initialize_flag_R(struct Cache *pcache){
 	if(strategy->nderef != 0){
 		// On parcourt tous les blocs du cache pour remettre le flag REFER à 0.
 		for (i = 0 ; i < pcache->nblocks ; i++)
-			pcache->headers[i].flags &= 0x3;
+			pcache->headers[i].flags &= ~REFER;
 		// Le compteur est réinitialisé
 		strategy->cpt = 0;
 		// On augmente le nombre de déréférencements effectués
