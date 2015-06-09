@@ -1,4 +1,5 @@
-#include <cache.h>
+#include "low_cache.h"
+#include "strategy.h"
 
 struct Cache *Cache_Create(const char *fic, unsigned nblocks, unsigned nrecords,size_t recordsz, unsigned nderef){
 	Cache *c = malloc(sizeof(Cache));
@@ -9,7 +10,7 @@ struct Cache *Cache_Create(const char *fic, unsigned nblocks, unsigned nrecords,
 	c->recordsz = recordsz;
 	c->blocksz = nrecords * recordsz;
 	c->nderef = nderef;
-	c->pstrategy = NULL;
+	c->pstrategy = Strategy_Create(c);
 	//c->instrument
 	//c->pfree = malloc(sizeof(Cache_Block_Header));
 	c->headers = malloc(sizeof(Cache_Block_Header)*nblocks);
@@ -23,6 +24,7 @@ Cache_Error Cache_Close(struct Cache *pcache){
 		return CACHE_KO;
 	if(fclose(pcache->fp) != 0)
 		return CACHE_KO;
+	Strategy_Close(pcache);
 	free(c->headers);
 	free(pcache);
 
@@ -56,12 +58,36 @@ Cache_Error Cache_Invalidate(struct Cache *pcache){
 	for(i = 0 ; i < pcache->nblocks ; i++)
 		pcache->headers[i].flags &= ~VALID;
 
+	Strategy_Invalidate(pcache);	
+
 	return CACHE_OK;
 }
 
 //! Lecture  (à travers le cache).
 Cache_Error Cache_Read(struct Cache *pcache, int irfile, void *precord){
+	char *buff = (char*)precord;
+	int ib = irfile / pcache->nrecords; // Indice du bloc contenant l'enregistrement
+	struct Cache_Block_Header *block = pcache->headers[ib]; // Bloc contenant l'enregistrement
 
+	// Si le bloc contenant l'enregistrement est valide (V = 1)
+	if(block->flags & VALID > 0){
+		// Addresse de l'enregistrement
+		char *data = ADDR(pcache, irfile, block);
+
+		// Ecriture de l'enregistrement dans le buffer
+		if(snprintf(buff, pcache->recordsz, data) < 0)
+			return CACHE_KO;
+
+		return CACHE_OK;
+	// Si le bloc n'est pas valide, utilise la stratégie de remplacement
+	}else{
+		block = Strategy_Replace_Block(pcache);
+	}
+
+	// Fonction "réflexe" lors de la lecture.
+	Strategy_Read(pcache, block);
+
+	return CACHE_OK;
 }
 
 //! Écriture (à travers le cache).
