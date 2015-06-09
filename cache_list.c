@@ -1,17 +1,28 @@
+#include <stdlib.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include "cache_list.h"
+#include "cache.h"
+#include "low_cache.h"
 
 /*! Création d'une liste de blocs */
 struct Cache_List *Cache_List_Create(){
 
 	struct Cache_List *liste =(struct Cache_List *)malloc(sizeof(struct Cache_List));
+	liste->prev=NULL;
+	liste->next=NULL;
+	liste->pheader=NULL;
+	printf("coucou Create");
 	return liste;
 
 }
+
 /*! Destruction d'une liste de blocs */
 void Cache_List_Delete(struct Cache_List *list){
 
 	free(list);
+	printf("coucou Delete");
+
 
 }
 
@@ -19,12 +30,12 @@ void Cache_List_Delete(struct Cache_List *list){
 void Cache_List_Append(struct Cache_List *list, struct Cache_Block_Header *pbh){
 
 	//positionnement sur le dernier element
-	struct Cache_list *chainon=list;
+	struct Cache_List *chainon=list;
 	while(chainon->next){
 		chainon=chainon->next;
 	}
-	struct Cache_list *newChainon= Cache_List_Create();
-	newChainon->phheader=pbh;
+	struct Cache_List *newChainon= Cache_List_Create();
+	newChainon->pheader=pbh;
 	chainon->next=newChainon;
 
 }
@@ -32,12 +43,12 @@ void Cache_List_Append(struct Cache_List *list, struct Cache_Block_Header *pbh){
 void Cache_List_Prepend(struct Cache_List *list, struct Cache_Block_Header *pbh){
 
 	//dans le doute on essaye de remonter jusqu'au premier element de la liste
-	struct Cache_list *chainon=list;
+	struct Cache_List *chainon=list;
 	while(chainon->prev){
 		chainon=chainon->prev;
 	}
-	struct Cache_list *newChainon= Cache_List_Create();
-	newChainon->phheader=pbh;
+	struct Cache_List *newChainon= Cache_List_Create();
+	newChainon->pheader=pbh;
 	chainon->prev=newChainon;
 }
 
@@ -53,46 +64,48 @@ struct Cache_Block_Header *Cache_List_Remove_First(struct Cache_List *list){
 
 	next=elementActu->next;
 	next->prev=NULL;
-	Cache_List_Remove(elementActu);
+	Cache_List_Remove(list, elementActu->pheader);
 	return next->pheader;
 }
+
 /*! Retrait du dernier élément */
 struct Cache_Block_Header *Cache_List_Remove_Last(struct Cache_List *list){
-	struct Cache_list *elementActu=list;
-	struct Cache_list *avantDer;
+	struct Cache_List *elementActu=list;
+	struct Cache_List *avantDer;
 	while(elementActu->next){
 		elementActu=elementActu->next;
 	}
 
 	avantDer=elementActu->prev;
 	avantDer->next=NULL;
-	Cache_List_Remove(elementActu);
+	Cache_List_Remove(list, elementActu->pheader);
 	return avantDer->pheader;
 }
 /*! Retrait d'un élément quelconque */
-struct Cache_Block_Header *Cache_List_Remove(struct Cache_List *list,
-                                             struct Cache_Block_Header *pbh){
-	struct Cache_list *elementActu=list;
-	struct Cache_list *blocRecherche;
+struct Cache_Block_Header *Cache_List_Remove(struct Cache_List *list,struct Cache_Block_Header *pbh){
+	struct Cache_List *elementActu=list;
+	struct Cache_List *blocRecherche;
 
 	// si on arrive en fin de liste ou qu'on trouve pbh
-	while(elementActu->next || blocRecherche!=NULL)
+	while(elementActu->next!=NULL || blocRecherche==NULL)
 	{
 		if(elementActu->pheader==pbh){
 			 blocRecherche=elementActu;
-		}else
+		}else{
+
 		elementActu=elementActu->next;
+		}
 	}
 	//si la liste ne contient pas pbh
 	if(blocRecherche==NULL){
 		return NULL;
 	}else {
-			Cache_List_Remove(elementActu);
 
-		struct Cache_list *previous=blocRecherche->prev;
-		struct Cache_list *next=blocRecherche->next;
-		previous->next=next;
-		Cache_List_Remove(blocRecherche);
+		struct Cache_List *previous=blocRecherche->prev;
+		previous->next=blocRecherche->next;
+		blocRecherche->next=NULL;
+		blocRecherche->prev=NULL;
+		blocRecherche->pheader=NULL;
 		return pbh;
 	}
 
@@ -101,7 +114,7 @@ struct Cache_Block_Header *Cache_List_Remove(struct Cache_List *list,
 /*! Remise en l'état de liste vide */
 void Cache_List_Clear(struct Cache_List *list){
 	while(list->next){
-		Cache_List_Remove_Last();
+		Cache_List_Remove_Last(list);
 	}
 
 	list->pheader=NULL;
@@ -109,7 +122,7 @@ void Cache_List_Clear(struct Cache_List *list){
 
 /*! Test de liste vide */
 bool Cache_List_Is_Empty(struct Cache_List *list){
-	if(!list->naext && list->header==NULL){
+	if(list->next==NULL && list->pheader==NULL){
 		return true;
 	}
 	else{ 
@@ -118,8 +131,7 @@ bool Cache_List_Is_Empty(struct Cache_List *list){
 }
 
 /*! Transférer un élément à la fin */
-void Cache_List_Move_To_End(struct Cache_List *list,
-                            struct Cache_Block_Header *pbh){
+void Cache_List_Move_To_End(struct Cache_List *list,struct Cache_Block_Header *pbh){
  
  	Cache_List_Remove(list,pbh);
  	Cache_List_Append(list,pbh);
@@ -127,8 +139,8 @@ void Cache_List_Move_To_End(struct Cache_List *list,
 
 }
 /*! Transférer un élément  au début */
-void Cache_List_Move_To_Begin(struct Cache_List *list,
-                              struct Cache_Block_Header *pbh){
+void Cache_List_Move_To_Begin(struct Cache_List *list,struct Cache_Block_Header *pbh){
 	Cache_List_Remove(list,pbh);
 	Cache_List_Prepend(list,pbh);
+
 }

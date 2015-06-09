@@ -1,0 +1,191 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'install', '-g', 'git-plot' ]
+2 info using npm@2.9.0
+3 info using node@v0.10.37
+4 verbose node symlink /usr/bin/node
+5 verbose install initial load of /usr/lib/package.json
+6 verbose readDependencies loading dependencies from /usr/lib/package.json
+7 silly cache add args [ 'git-plot', null ]
+8 verbose cache add spec git-plot
+9 silly cache add parsed spec { raw: 'git-plot',
+9 silly cache add   scope: null,
+9 silly cache add   name: 'git-plot',
+9 silly cache add   rawSpec: '',
+9 silly cache add   spec: '*',
+9 silly cache add   type: 'range' }
+10 silly addNamed git-plot@*
+11 verbose addNamed "*" is a valid semver range for git-plot
+12 silly addNameRange { name: 'git-plot', range: '*', hasData: false }
+13 silly mapToRegistry name git-plot
+14 silly mapToRegistry using default registry
+15 silly mapToRegistry registry https://registry.npmjs.org/
+16 silly mapToRegistry uri https://registry.npmjs.org/git-plot
+17 verbose addNameRange registry:https://registry.npmjs.org/git-plot not in flight; fetching
+18 verbose request uri https://registry.npmjs.org/git-plot
+19 verbose request no auth needed
+20 info attempt registry request try #1 at 16:59:37
+21 verbose request id b67110ad49216071
+22 http request GET https://registry.npmjs.org/git-plot
+23 http 200 https://registry.npmjs.org/git-plot
+24 silly get cb [ 200,
+24 silly get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+24 silly get     etag: '"ARIXF9TD32DF442F6MEYQ003P"',
+24 silly get     'content-type': 'application/json',
+24 silly get     'cache-control': 'max-age=60',
+24 silly get     'content-length': '3399',
+24 silly get     'accept-ranges': 'bytes',
+24 silly get     date: 'Mon, 08 Jun 2015 14:59:36 GMT',
+24 silly get     via: '1.1 varnish',
+24 silly get     age: '0',
+24 silly get     connection: 'keep-alive',
+24 silly get     'x-served-by': 'cache-fra1230-FRA',
+24 silly get     'x-cache': 'MISS',
+24 silly get     'x-cache-hits': '0',
+24 silly get     'x-timer': 'S1433775576.023960,VS0,VE109',
+24 silly get     vary: 'Accept' } ]
+25 verbose get saving git-plot to /home/user/.npm/registry.npmjs.org/git-plot/.cache.json
+26 silly addNameRange number 2 { name: 'git-plot', range: '*', hasData: true }
+27 silly addNameRange versions [ 'git-plot', [ '0.0.1', '0.1.0' ] ]
+28 silly addNamed git-plot@0.1.0
+29 verbose addNamed "0.1.0" is a plain semver version for git-plot
+30 silly mapToRegistry name git-plot
+31 silly mapToRegistry using default registry
+32 silly mapToRegistry registry https://registry.npmjs.org/
+33 silly mapToRegistry uri https://registry.npmjs.org/git-plot
+34 verbose addRemoteTarball https://registry.npmjs.org/git-plot/-/git-plot-0.1.0.tgz not in flight; adding
+35 verbose addRemoteTarball [ 'https://registry.npmjs.org/git-plot/-/git-plot-0.1.0.tgz',
+35 verbose addRemoteTarball   'dbcf4aa5a1e6f51b41e3bd72d8853d6505ffa5e1' ]
+36 info retry fetch attempt 1 at 16:59:38
+37 info attempt registry request try #1 at 16:59:38
+38 http fetch GET https://registry.npmjs.org/git-plot/-/git-plot-0.1.0.tgz
+39 http fetch 200 https://registry.npmjs.org/git-plot/-/git-plot-0.1.0.tgz
+40 silly fetchAndShaCheck shasum dbcf4aa5a1e6f51b41e3bd72d8853d6505ffa5e1
+41 verbose addTmpTarball /tmp/npm-13952-26cfb335/registry.npmjs.org/git-plot/-/git-plot-0.1.0.tgz not in flight; adding
+42 verbose addTmpTarball already have metadata; skipping unpack for git-plot@0.1.0
+43 silly cache afterAdd git-plot@0.1.0
+44 verbose afterAdd /home/user/.npm/git-plot/0.1.0/package/package.json not in flight; writing
+45 verbose afterAdd /home/user/.npm/git-plot/0.1.0/package/package.json written
+46 silly install resolved [ { name: 'git-plot',
+46 silly install resolved     version: '0.1.0',
+46 silly install resolved     author:
+46 silly install resolved      { name: 'Paul Nechifor',
+46 silly install resolved        email: 'paul@nechifor.net',
+46 silly install resolved        url: 'http://nechifor.net/' },
+46 silly install resolved     main: './lib',
+46 silly install resolved     bin: { 'git-plot': './bin/git-plot.js' },
+46 silly install resolved     scripts: { preinstall: 'rm -fr lib; coffee -cbo lib src' },
+46 silly install resolved     dependencies:
+46 silly install resolved      { async: '^0.9.0',
+46 silly install resolved        'coffee-script': '^1.8.0',
+46 silly install resolved        findit: '^1.2.0',
+46 silly install resolved        json2csv: '^2.2.1',
+46 silly install resolved        nodegit: '^0.1.4',
+46 silly install resolved        optimist: '^0.6.1' },
+46 silly install resolved     repository:
+46 silly install resolved      { type: 'git',
+46 silly install resolved        url: 'https://github.com/paul-nechifor/git-plot' },
+46 silly install resolved     license: 'MIT',
+46 silly install resolved     gitHead: '631e916abf3e8067d28354c592154f5033c15d4e',
+46 silly install resolved     description: 'A tool for generating plotting data from your local Git repos.',
+46 silly install resolved     bugs: { url: 'https://github.com/paul-nechifor/git-plot/issues' },
+46 silly install resolved     homepage: 'https://github.com/paul-nechifor/git-plot',
+46 silly install resolved     _id: 'git-plot@0.1.0',
+46 silly install resolved     _shasum: 'dbcf4aa5a1e6f51b41e3bd72d8853d6505ffa5e1',
+46 silly install resolved     _from: 'git-plot@*',
+46 silly install resolved     _npmVersion: '1.4.23',
+46 silly install resolved     _npmUser: { name: 'paul-nechifor', email: 'paul@nechifor.net' },
+46 silly install resolved     maintainers: [ [Object] ],
+46 silly install resolved     dist:
+46 silly install resolved      { shasum: 'dbcf4aa5a1e6f51b41e3bd72d8853d6505ffa5e1',
+46 silly install resolved        tarball: 'http://registry.npmjs.org/git-plot/-/git-plot-0.1.0.tgz' },
+46 silly install resolved     directories: {},
+46 silly install resolved     _resolved: 'https://registry.npmjs.org/git-plot/-/git-plot-0.1.0.tgz' } ]
+47 info install git-plot@0.1.0 into /usr/lib
+48 info installOne git-plot@0.1.0
+49 verbose installOne of git-plot to /usr/lib not in flight; installing
+50 verbose lock using /home/user/.npm/_locks/git-plot-fcb7bb0fa862195c.lock for /usr/lib/node_modules/git-plot
+51 silly install write writing git-plot 0.1.0 to /usr/lib/node_modules/git-plot
+52 verbose unbuild lib/node_modules/git-plot
+53 silly gentlyRm /usr/lib/node_modules/git-plot is being purged from base /usr
+54 verbose gentlyRm don't care about contents; nuking /usr/lib/node_modules/git-plot
+55 verbose tar unpack /home/user/.npm/git-plot/0.1.0/package.tgz
+56 verbose tar unpacking to /usr/lib/node_modules/git-plot
+57 silly gentlyRm /usr/lib/node_modules/git-plot is being purged
+58 verbose gentlyRm don't care about contents; nuking /usr/lib/node_modules/git-plot
+59 silly gunzTarPerm modes [ '755', '644' ]
+60 silly gunzTarPerm extractEntry package.json
+61 silly gunzTarPerm modified mode [ 'package.json', 436, 420 ]
+62 silly gunzTarPerm extractEntry .npmignore
+63 silly gunzTarPerm modified mode [ '.npmignore', 436, 420 ]
+64 silly gunzTarPerm extractEntry .idea/.name
+65 silly gunzTarPerm modified mode [ '.idea/.name', 436, 420 ]
+66 silly gunzTarPerm extractEntry .idea/encodings.xml
+67 silly gunzTarPerm modified mode [ '.idea/encodings.xml', 436, 420 ]
+68 silly gunzTarPerm extractEntry .idea/git-plot.iml
+69 silly gunzTarPerm modified mode [ '.idea/git-plot.iml', 436, 420 ]
+70 silly gunzTarPerm extractEntry .idea/misc.xml
+71 silly gunzTarPerm modified mode [ '.idea/misc.xml', 436, 420 ]
+72 silly gunzTarPerm extractEntry .idea/modules.xml
+73 silly gunzTarPerm modified mode [ '.idea/modules.xml', 436, 420 ]
+74 silly gunzTarPerm extractEntry .idea/scopes/scope_settings.xml
+75 silly gunzTarPerm modified mode [ '.idea/scopes/scope_settings.xml', 436, 420 ]
+76 silly gunzTarPerm extractEntry .idea/vcs.xml
+77 silly gunzTarPerm modified mode [ '.idea/vcs.xml', 436, 420 ]
+78 silly gunzTarPerm extractEntry .idea/workspace.xml
+79 silly gunzTarPerm modified mode [ '.idea/workspace.xml', 436, 420 ]
+80 silly gunzTarPerm extractEntry bin/git-plot.js
+81 silly gunzTarPerm modified mode [ 'bin/git-plot.js', 509, 493 ]
+82 silly gunzTarPerm extractEntry readme.md
+83 silly gunzTarPerm modified mode [ 'readme.md', 436, 420 ]
+84 silly gunzTarPerm extractEntry src/GitSearch.coffee
+85 silly gunzTarPerm modified mode [ 'src/GitSearch.coffee', 436, 420 ]
+86 silly gunzTarPerm extractEntry src/index.coffee
+87 silly gunzTarPerm modified mode [ 'src/index.coffee', 436, 420 ]
+88 silly gunzTarPerm extractEntry src/main.coffee
+89 silly gunzTarPerm modified mode [ 'src/main.coffee', 436, 420 ]
+90 verbose write writing to /usr/lib/node_modules/git-plot/package.json
+91 info preinstall git-plot@0.1.0
+92 verbose unsafe-perm in lifecycle false
+93 info git-plot@0.1.0 Failed to exec preinstall script
+94 verbose unlock done using /home/user/.npm/_locks/git-plot-fcb7bb0fa862195c.lock for /usr/lib/node_modules/git-plot
+95 verbose stack Error: git-plot@0.1.0 preinstall: `rm -fr lib; coffee -cbo lib src`
+95 verbose stack spawn ENOENT
+95 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/spawn.js:17:16)
+95 verbose stack     at ChildProcess.emit (events.js:98:17)
+95 verbose stack     at maybeClose (child_process.js:766:16)
+95 verbose stack     at Process.ChildProcess._handle.onexit (child_process.js:833:5)
+96 verbose pkgid git-plot@0.1.0
+97 verbose cwd /home/user/ProjetFinAnnee/CacheSimulator
+98 error Linux 3.13.0-53-generic
+99 error argv "node" "/usr/local/bin/npm" "install" "-g" "git-plot"
+100 error node v0.10.37
+101 error npm  v2.9.0
+102 error file sh
+103 error code ELIFECYCLE
+104 error errno ENOENT
+105 error syscall spawn
+106 error git-plot@0.1.0 preinstall: `rm -fr lib; coffee -cbo lib src`
+106 error spawn ENOENT
+107 error Failed at the git-plot@0.1.0 preinstall script 'rm -fr lib; coffee -cbo lib src'.
+107 error This is most likely a problem with the git-plot package,
+107 error not with npm itself.
+107 error Tell the author that this fails on your system:
+107 error     rm -fr lib; coffee -cbo lib src
+107 error You can get their info via:
+107 error     npm owner ls git-plot
+107 error There is likely additional logging output above.
+108 verbose exit [ 1, true ]
+109 verbose unbuild lib/node_modules/git-plot
+110 info preuninstall git-plot@0.1.0
+111 info uninstall git-plot@0.1.0
+112 verbose unbuild rmStuff git-plot@0.1.0 from /usr/lib/node_modules
+113 silly gentlyRm /usr/bin/git-plot is being gently removed
+114 silly gentlyRm verifying /usr is an npm working directory
+115 silly gentlyRm containing path /usr is under npm's control, in /usr
+116 silly gentlyRm deletion target /usr/bin/git-plot is under /usr
+117 verbose gentlyRm vacuuming from /usr/bin/git-plot up to /usr
+118 info postuninstall git-plot@0.1.0
+119 silly gentlyRm /usr/lib/node_modules/git-plot is being purged from base /usr
+120 verbose gentlyRm don't care about contents; nuking /usr/lib/node_modules/git-plot
+121 silly vacuum-fs purging /usr/lib/node_modules/git-plot
+122 silly vacuum-fs quitting because other entries in /usr/lib/node_modules
