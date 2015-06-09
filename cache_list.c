@@ -59,7 +59,7 @@ void Cache_List_Prepend(struct Cache_List *list, struct Cache_Block_Header *pbh)
 }
 
 /*! Retrait du premier élément */
-struct Cache_Block_Header *Cache_List_Remove_First(struct Cache_List *list){
+/*struct Cache_Block_Header *Cache_List_Remove_First(struct Cache_List *list){
 	if(!Cache_List_Is_Empty(list)){
 
 	struct Cache_List *elementActu=list;
@@ -78,29 +78,41 @@ struct Cache_Block_Header *Cache_List_Remove_First(struct Cache_List *list){
 }
 	return NULL;
 }
+*/
 
+struct Cache_Block_Header *Cache_List_Remove_First(struct Cache_List *list){
+	if(!Cache_List_Is_Empty(list)){
+
+	struct Cache_List *elementActu=list;
+	struct Cache_List *next;
+	if(elementActu-> next == NULL && elementActu -> prev == NULL){
+		Cache_List_Clear(list);
+		return NULL;
+	}
+	next=elementActu->next;
+	next->prev=NULL;
+	free(elementActu);
+	return next->pheader;
+	}
+	return NULL;
+}
 /*! Retrait du dernier élément */
 struct Cache_Block_Header *Cache_List_Remove_Last(struct Cache_List *list){
-		printf("coucou");
-
-	if(!Cache_List_Is_Empty(list)){
 	struct Cache_List *elementActu=list;
 	struct Cache_List *avantDer;
-	while(elementActu->next!=NULL){
-		elementActu=elementActu->next;
+	if(!Cache_List_Is_Empty(list)){
+		if(elementActu-> next == NULL && elementActu -> prev == NULL){
+		Cache_List_Clear(list);
+		return NULL;
+	}
+	for(elementActu; elementActu->next != NULL; elementActu = elementActu->next){
 	}
 	//si plusieurs elements
-	if(elementActu->prev!=NULL){
 	avantDer=elementActu->prev;
 	avantDer->next=NULL;
+	free(elementActu);
 	return avantDer->pheader;
-	}else{
-	//si seul
-	Cache_List_Clear(list);
-	return NULL;
 	}
-}
-
 	return NULL;
 }
 /*! Retrait d'un élément quelconque */
