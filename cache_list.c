@@ -87,12 +87,12 @@ struct Cache_Block_Header *Cache_List_Remove_First(struct Cache_List *list){
 	struct Cache_List *next;
 	if(elementActu-> next == NULL && elementActu -> prev == NULL){
 		Cache_List_Clear(list);
-		return NULL;
+		return elementActu;
 	}
 	next=elementActu->next;
 	next->prev=NULL;
-	free(elementActu);
-	return next->pheader;
+	elementActu -> next = NULL;
+	return elementActu->pheader;
 	}
 	return NULL;
 }
@@ -103,15 +103,15 @@ struct Cache_Block_Header *Cache_List_Remove_Last(struct Cache_List *list){
 	if(!Cache_List_Is_Empty(list)){
 		if(elementActu-> next == NULL && elementActu -> prev == NULL){
 		Cache_List_Clear(list);
-		return NULL;
+		return elementActu;
 	}
 	for(elementActu; elementActu->next != NULL; elementActu = elementActu->next){
 	}
 	//si plusieurs elements
 	avantDer=elementActu->prev;
 	avantDer->next=NULL;
-	free(elementActu);
-	return avantDer->pheader;
+	elementActu -> prev = NULL;
+	return elementActu->pheader;
 	}
 	return NULL;
 }
@@ -133,8 +133,7 @@ struct Cache_Block_Header *Cache_List_Remove(struct Cache_List *list,struct Cach
 		previous->next=elementActu->next;
 		elementActu->next=NULL;
 		elementActu->prev=NULL;
-		elementActu->pheader=NULL;
-		return pbh;
+		return elementActu->pheader;
 	}
 
 }
