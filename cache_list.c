@@ -1,10 +1,10 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <string.h>
 #include "cache_list.h"
 #include "cache.h"
 #include "low_cache.h"
-
 /*! Test de liste vide */
 bool Cache_List_Is_Empty(struct Cache_List *list){
 	if(list->next==NULL){
@@ -90,14 +90,16 @@ struct Cache_Block_Header *Cache_List_Remove_First(struct Cache_List *list){
 	struct Cache_List *elementActu=list;
 	struct Cache_List *next;
 	if(elementActu-> next == NULL && elementActu -> prev == NULL){
-		list = Cache_List_Create();
-		return elementActu->pheader;
+		struct Cache_Block_Header* temp=&(list->pheader);
+		Cache_List_Clear(list);
+		return temp;
 	}
 	next=elementActu->next;
 	next->prev=NULL;
 	elementActu -> next = NULL;
 	elementActu->prev=NULL;
 	struct Cache_Block_Header* temp=&(elementActu->pheader);
+		elementActu->pheader=NULL;
 		Cache_List_Delete(elementActu);
 		return temp;
 	}
@@ -109,8 +111,9 @@ struct Cache_Block_Header *Cache_List_Remove_Last(struct Cache_List *list){
 		struct Cache_List *elementActu=list;
 		struct Cache_List *avantDer;
 		if(elementActu-> next == NULL && elementActu -> prev == NULL){
-		list = Cache_List_Create();
-		return elementActu->pheader;
+		struct Cache_Block_Header* temp=&(list->pheader);
+		Cache_List_Clear(list);
+		return temp;
 	}
 	for(elementActu; elementActu->next != NULL; elementActu = elementActu->next){
 		avantDer = elementActu;
@@ -120,6 +123,7 @@ struct Cache_Block_Header *Cache_List_Remove_Last(struct Cache_List *list){
 	elementActu -> prev = NULL;
 	elementActu->next=NULL;
 struct Cache_Block_Header* temp=&(elementActu->pheader);
+		elementActu->pheader=NULL;
 		Cache_List_Delete(elementActu);
 		return temp;
 	}
@@ -130,8 +134,9 @@ struct Cache_Block_Header *Cache_List_Remove(struct Cache_List *list,struct Cach
 	if(!Cache_List_Is_Empty(list)){
 		struct Cache_List *elementActu=list;
 		if(elementActu-> next == NULL && elementActu -> prev == NULL){
-		list = Cache_List_Create();
-		return elementActu->pheader;
+		struct Cache_Block_Header* temp=&(list->pheader);
+		Cache_List_Clear(list);
+		return temp;
 	}
 	// si on arrive en fin de liste ou qu'on trouve pbh
 	
@@ -151,6 +156,7 @@ struct Cache_Block_Header *Cache_List_Remove(struct Cache_List *list,struct Cach
 		elementActu->next=NULL;
 		elementActu->prev=NULL;
 struct Cache_Block_Header* temp=&(elementActu->pheader);
+		elementActu->pheader=NULL;
 		Cache_List_Delete(elementActu);
 		return temp;
 	}	
