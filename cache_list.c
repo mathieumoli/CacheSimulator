@@ -21,7 +21,7 @@ bool Cache_List_Is_Empty(struct Cache_List *list){
 /*! Création d'une liste de blocs */
 struct Cache_List *Cache_List_Create(){
 
-	struct Cache_List *liste =(struct Cache_List *)malloc(sizeof(struct Cache_List));
+	struct Cache_List *liste =malloc(sizeof(struct Cache_List));
 	liste->prev=NULL;
 	liste->next=NULL;
 	liste->pheader=NULL;
@@ -83,7 +83,7 @@ void Cache_List_Prepend(struct Cache_List *list, struct Cache_Block_Header *pbh)
 
 /*! Retrait du premier élément */
 struct Cache_Block_Header *Cache_List_Remove_First(struct Cache_List *list){
-	struct Cache_Block_Header temp = malloc(sizeof(struct Cache_Block_Header));
+	struct Cache_Block_Header* temp =malloc(sizeof(struct Cache_Block_Header));
 		/* data */
 	if(!Cache_List_Is_Empty(list)){
 
@@ -104,7 +104,7 @@ struct Cache_Block_Header *Cache_List_Remove_First(struct Cache_List *list){
 }
 /*! Retrait du dernier élément */
 struct Cache_Block_Header *Cache_List_Remove_Last(struct Cache_List *list){
-	struct Cache_Block_Header temp = malloc(sizeof(struct Cache_Block_Header));
+	struct Cache_Block_Header *temp = malloc(sizeof(struct Cache_Block_Header));
 	if(!Cache_List_Is_Empty(list)){
 		struct Cache_List *elementActu=list;
 		struct Cache_List *avantDer;
@@ -126,7 +126,7 @@ struct Cache_Block_Header *Cache_List_Remove_Last(struct Cache_List *list){
 }
 /*! Retrait d'un élément quelconque */
 struct Cache_Block_Header *Cache_List_Remove(struct Cache_List *list,struct Cache_Block_Header *pbh){
-	struct Cache_Block_Header temp = malloc(sizeof(struct Cache_Block_Header));
+	struct Cache_Block_Header *temp =malloc(sizeof(struct Cache_Block_Header));
 	if(!Cache_List_Is_Empty(list)){
 		struct Cache_List *elementActu=list;
 		if(elementActu-> next == NULL && elementActu -> prev == NULL){
