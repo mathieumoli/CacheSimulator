@@ -111,6 +111,9 @@ Cache_Error Cache_Read(struct Cache *pcache, int irfile, void *precord){
 		// Bloc récupéré par la stratégie (peut être un bloc libre)
 		block = Strategy_Replace_Block(pcache);
 
+		// pfree a pu être modifié, on le réinitialise
+		pcache->pfree = Get_Free_Block(pcache);
+
 		// Si le bloc a été modifié, il est réécrit sur le disque
 		if((block->flags & MODIF) > 0){
 			if(fseek(pcache->fp, DADDR(pcache, block->ibfile), SEEK_SET) != 0)
@@ -168,7 +171,10 @@ Cache_Error Cache_Write(struct Cache *pcache, int irfile, const void *precord){
 	}else{
 		// Bloc récupéré par la stratégie (peut être un bloc libre)
 		block = Strategy_Replace_Block(pcache);
-if(block==NULL)printf("WTF?\n");
+
+		// pfree a pu être modifié, on le réinitialise
+		pcache->pfree = Get_Free_Block(pcache);
+
 		// Si le bloc a été modifié, il est réécrit sur le disque
 		if((block->flags & MODIF) > 0){
 			if(fseek(pcache->fp, DADDR(pcache, block->ibfile), SEEK_SET) != 0)
@@ -241,4 +247,6 @@ struct Cache_Block_Header *Cache_Contains_Valid_Record(struct Cache *pcache, int
 
 	return NULL;
 }
+
+
 
