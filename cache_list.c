@@ -30,7 +30,7 @@ void Cache_List_Delete(struct Cache_List *list){
 printf("Cache_List_Delete\n");
 	struct Cache_List *elem = list;
 	struct Cache_List *del;
-	while(elem != NULL){
+	while(elem->next != NULL){
 		del = elem;
 		elem = elem->next;
 		del->pheader = NULL;
@@ -62,7 +62,7 @@ printf("Cache_List_Append\n");
 	}else{
 	//positionnement sur le dernier element
 	
-		while(chainon != NULL){
+		while(chainon->next != NULL){
 			chainon=chainon->next;
 		}
 
