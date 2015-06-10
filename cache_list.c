@@ -99,26 +99,8 @@ struct Cache_Block_Header *Cache_List_Remove_First(struct Cache_List *list){
 printf("Cache_List_Remove_First\n");
 	struct Cache_Block_Header *block = NULL;
 
-<<<<<<< HEAD
 	if(!Cache_List_Is_Empty(list)){
 		block = Cache_List_Remove(list, list->pheader);
-=======
-	struct Cache_List *elementActu=list;
-	struct Cache_List *next;
-	if(elementActu-> next == NULL && elementActu -> prev == NULL){
-		struct Cache_Block_Header* temp=&(list->pheader);
-		Cache_List_Clear(list);
-		return temp;
-	}
-	next=elementActu->next;
-	next->prev=NULL;
-	elementActu -> next = NULL;
-	elementActu->prev=NULL;
-	struct Cache_Block_Header* temp=&(elementActu->pheader);
-		elementActu->pheader=NULL;
-		Cache_List_Delete(elementActu);
-		return temp;
->>>>>>> 4cb23d99d8e25ad1ebabfd8d980c9fff85ce932a
 	}
 	
 	return block;
@@ -130,7 +112,6 @@ printf("Cache_List_Remove_Last");
 	struct Cache_List *elem = list;
 
 	if(!Cache_List_Is_Empty(list)){
-<<<<<<< HEAD
 		while(elem->next != NULL)elem = elem->next;
 		block = Cache_List_Remove(list, elem->pheader);
 	}
@@ -169,62 +150,6 @@ printf("Cache_List_Remove\n");
 	}
 
 	return block;	
-=======
-		struct Cache_List *elementActu=list;
-		struct Cache_List *avantDer;
-		if(elementActu-> next == NULL && elementActu -> prev == NULL){
-		struct Cache_Block_Header* temp=&(list->pheader);
-		Cache_List_Clear(list);
-		return temp;
-	}
-	for(elementActu; elementActu->next != NULL; elementActu = elementActu->next){
-		avantDer = elementActu;
-	}
-	//si plusieurs elements
-	avantDer->next=NULL;
-	elementActu -> prev = NULL;
-	elementActu->next=NULL;
-struct Cache_Block_Header* temp=&(elementActu->pheader);
-		elementActu->pheader=NULL;
-		Cache_List_Delete(elementActu);
-		return temp;
-	}
-	return NULL;
-}
-/*! Retrait d'un élément quelconque */
-struct Cache_Block_Header *Cache_List_Remove(struct Cache_List *list,struct Cache_Block_Header *pbh){
-	if(!Cache_List_Is_Empty(list)){
-		struct Cache_List *elementActu=list;
-		if(elementActu-> next == NULL && elementActu -> prev == NULL){
-		struct Cache_Block_Header* temp=&(list->pheader);
-		Cache_List_Clear(list);
-		return temp;
-	}
-	// si on arrive en fin de liste ou qu'on trouve pbh
-	
-	for(elementActu; elementActu->next != NULL || elementActu->pheader != pbh; elementActu = elementActu->next){
-
-	}
-	//si la liste ne contient pas pbh
-	if(elementActu==NULL){
-		return NULL;
-	}else {
-
-		struct Cache_List *previous=elementActu->prev;
-		struct Cache_List *next=elementActu->next;
-
-		previous->next=elementActu->next;
-		next->prev=elementActu->prev;
-		elementActu->next=NULL;
-		elementActu->prev=NULL;
-struct Cache_Block_Header* temp=&(elementActu->pheader);
-		elementActu->pheader=NULL;
-		Cache_List_Delete(elementActu);
-		return temp;
-	}	
-	}
-	return NULL;
->>>>>>> 4cb23d99d8e25ad1ebabfd8d980c9fff85ce932a
 }
 
 /*! Remise en l'état de liste vide */
