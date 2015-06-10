@@ -83,6 +83,8 @@ void Cache_List_Prepend(struct Cache_List *list, struct Cache_Block_Header *pbh)
 
 /*! Retrait du premier élément */
 struct Cache_Block_Header *Cache_List_Remove_First(struct Cache_List *list){
+	struct Cache_Block_Header temp = malloc(sizeof(struct Cache_Block_Header));
+		/* data */
 	if(!Cache_List_Is_Empty(list)){
 
 	struct Cache_List *elementActu=list;
@@ -94,12 +96,15 @@ struct Cache_Block_Header *Cache_List_Remove_First(struct Cache_List *list){
 	next=elementActu->next;
 	next->prev=NULL;
 	elementActu -> next = NULL;
-	return elementActu->pheader;
+	temp = elementActu -> pheader;
+	free(elementActu);
+	return temp;
 	}
 	return NULL;
 }
 /*! Retrait du dernier élément */
 struct Cache_Block_Header *Cache_List_Remove_Last(struct Cache_List *list){
+	struct Cache_Block_Header temp = malloc(sizeof(struct Cache_Block_Header));
 	if(!Cache_List_Is_Empty(list)){
 		struct Cache_List *elementActu=list;
 		struct Cache_List *avantDer;
@@ -113,12 +118,15 @@ struct Cache_Block_Header *Cache_List_Remove_Last(struct Cache_List *list){
 	//si plusieurs elements
 	avantDer->next=NULL;
 	elementActu -> prev = NULL;
-	return elementActu->pheader;
+	temp = elementActu -> pheader;
+	free(elementActu);
+	return temp;
 	}
 	return NULL;
 }
 /*! Retrait d'un élément quelconque */
 struct Cache_Block_Header *Cache_List_Remove(struct Cache_List *list,struct Cache_Block_Header *pbh){
+	struct Cache_Block_Header temp = malloc(sizeof(struct Cache_Block_Header));
 	if(!Cache_List_Is_Empty(list)){
 		struct Cache_List *elementActu=list;
 		if(elementActu-> next == NULL && elementActu -> prev == NULL){
@@ -142,7 +150,9 @@ struct Cache_Block_Header *Cache_List_Remove(struct Cache_List *list,struct Cach
 		next->prev=elementActu->prev;
 		elementActu->next=NULL;
 		elementActu->prev=NULL;
-		return elementActu->pheader;
+		temp = elementActu -> pheader;
+		free(elementActu);
+		return temp;
 	}
 	}
 	return NULL;
