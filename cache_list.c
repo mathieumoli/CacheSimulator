@@ -42,6 +42,7 @@ void Cache_List_Delete(struct Cache_List *list){
 		free(elementActu);
 		elementActu=precedent;
 	}
+	free(elementActu);
 
 
 }
@@ -96,9 +97,9 @@ struct Cache_Block_Header *Cache_List_Remove_First(struct Cache_List *list){
 	next=elementActu->next;
 	next->prev=NULL;
 	elementActu -> next = NULL;
-	struct Cache_Block_Header* temp =malloc(sizeof(struct Cache_Block_Header));
-	temp = elementActu -> pheader;
-	free(elementActu);
+	elementActu->prev=NULL;
+	struct Cache_Block_Header *temp = elementActu->pheader;
+	Cache_List_Delete(elementActu);
 	return temp;
 	}
 	return NULL;
@@ -118,10 +119,9 @@ struct Cache_Block_Header *Cache_List_Remove_Last(struct Cache_List *list){
 	//si plusieurs elements
 	avantDer->next=NULL;
 	elementActu -> prev = NULL;
-	struct Cache_Block_Header* temp =malloc(sizeof(struct Cache_Block_Header));
-	temp = elementActu -> pheader;
-	free(elementActu);
-	return temp;
+	elementActu->next=NULL;
+	struct Cache_Block_Header *temp = elementActu->pheader;
+	Cache_List_Delete(elementActu);
 	}
 	return NULL;
 }
@@ -150,11 +150,9 @@ struct Cache_Block_Header *Cache_List_Remove(struct Cache_List *list,struct Cach
 		next->prev=elementActu->prev;
 		elementActu->next=NULL;
 		elementActu->prev=NULL;
-		struct Cache_Block_Header* temp =malloc(sizeof(struct Cache_Block_Header));
-		temp = elementActu -> pheader;
-		free(elementActu);
-		return temp;
-	}
+		struct Cache_Block_Header *temp = elementActu->pheader;
+		Cache_List_Delete(elementActu);
+	}	
 	}
 	return NULL;
 }
