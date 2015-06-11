@@ -62,16 +62,11 @@ void Cache_List_Prepend(struct Cache_List *list, struct Cache_Block_Header *pbh)
 	if(Cache_List_Is_Empty(list)){
 		list->pheader=pbh;
 	}else{
-
-		//dans le doute on essaye de remonter jusqu'au premier element de la liste
-		
-		while(chainon->prev){
-			chainon=chainon->prev;
-		}
 		struct Cache_List *newChainon= Cache_List_Create();
 		newChainon->pheader=pbh;
 		chainon->prev=newChainon;
 		newChainon->next=chainon;
+		list = newChainon;
 	}
 }
 
@@ -148,6 +143,7 @@ void Cache_List_Clear(struct Cache_List *list){
 
 		list->pheader=NULL;
 		list->next = NULL;
+		list->prev = NULL;
 	}
 }
 
@@ -156,7 +152,6 @@ void Cache_List_Move_To_End(struct Cache_List *list,struct Cache_Block_Header *p
  //printf("Cache_List_Move_To_End\n");
  	Cache_List_Remove(list,pbh);
  	Cache_List_Append(list,pbh);
-
 }
 /*! Transférer un élément  au début */
 void Cache_List_Move_To_Begin(struct Cache_List *list,struct Cache_Block_Header *pbh){
