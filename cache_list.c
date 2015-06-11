@@ -128,7 +128,7 @@ printf("Cache_List_Remove\n");
 	struct Cache_List *del;
 
 	if(!Cache_List_Is_Empty(list)){
-		while(elem->pheader != pbh && elem != NULL)elem = elem->next;
+		while(elem->pheader != pbh && elem != NULL && elem->next != NULL)elem = elem->next;
 		if(elem != NULL){
 			block = elem->pheader;
 			del = elem;
