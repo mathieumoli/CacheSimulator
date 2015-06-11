@@ -28,30 +28,9 @@ struct Cache_List *Cache_List_Create(){
 /*! Destruction d'une liste de blocs */
 void Cache_List_Delete(struct Cache_List *list){
  //printf("Cache_List_Delete\n");
-	struct Cache_List *elem = list;
- 	struct Cache_List *del;
- 	while(elem->next != NULL){
- 		del = elem;
- 		elem = elem->next;
- 		del->pheader = NULL;
- 		free(del);
-	}
 
-
-
-	/*struct Cache_List *elementActu = list;
-	list->prev=NULL;
-	struct Cache_List *precedent;
-	// je me mets sur le dernier element
-	for(elementActu; elementActu->next != NULL; elementActu = elementActu->next){
-	}
-	while(elementActu->prev != NULL){
-		precedent=elementActu->prev;
-		free(elementActu);
-		elementActu=precedent;
-	}
-	free(elementActu);*/
-
+	Cache_List_Clear(list);
+	free(list);
 }
 
 /*! Insertion d'un élément à la fin */
@@ -147,7 +126,7 @@ struct Cache_Block_Header *Cache_List_Remove(struct Cache_List *list,struct Cach
 				del->prev = NULL;
 				del->next = NULL;
 				del->pheader = NULL;
-				Cache_List_Delete(del);
+				Cache_List_Clear(del);
 			}
 	}
 
@@ -156,11 +135,17 @@ struct Cache_Block_Header *Cache_List_Remove(struct Cache_List *list,struct Cach
 
 /*! Remise en l'état de liste vide */
 void Cache_List_Clear(struct Cache_List *list){
-printf("Cache_List_Clear\n");
+//printf("Cache_List_Clear\n");
+ 	struct Cache_List *del;
+	
 	if(!Cache_List_Is_Empty(list)){
-		if(list->next!=NULL){
-		Cache_List_Delete(list->next);
-	}
+	 	while(list->next != NULL){
+			del = list;
+			list = list->next;			
+	 		del->pheader = NULL;
+	 		free(del);
+		}
+
 		list->pheader=NULL;
 		list->next = NULL;
 	}
