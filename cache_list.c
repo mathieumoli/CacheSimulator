@@ -103,26 +103,28 @@ struct Cache_Block_Header *Cache_List_Remove(struct Cache_List *list,struct Cach
 
 	if(!Cache_List_Is_Empty(list)){
 		while(elem != NULL && elem->pheader != pbh)elem = elem->next;
-			if(elem != NULL){
-				block = elem->pheader;
-				del = elem;
-				if(elem->next == NULL && elem->prev != NULL){
-					elem = elem->prev;
-					elem->next = NULL;
-				}else if(elem->next != NULL && elem->prev == NULL){
-					elem = elem->next;
-					elem->prev = NULL;
-				}else if(elem->next != NULL && elem->prev != NULL){
-					elem = elem->next;
-					elem->prev = del->prev;
-					(elem->prev)->next = elem;
-				}
-			
-				del->prev = NULL;
-				del->next = NULL;
-				del->pheader = NULL;
-				Cache_List_Clear(del);
+		
+		if(elem != NULL){
+			block = elem->pheader;
+			del = elem;
+			if(elem->next == NULL && elem->prev != NULL){
+				elem = elem->prev;
+				elem->next = NULL;
+			}else if(elem->next != NULL && elem->prev == NULL){
+				elem = elem->next;
+				elem->prev = NULL;
+				list = elem;
+			}else if(elem->next != NULL && elem->prev != NULL){
+				elem = elem->next;
+				elem->prev = del->prev;
+				(elem->prev)->next = elem;
 			}
+		
+			del->prev = NULL;
+			del->next = NULL;
+			del->pheader = NULL;
+			Cache_List_Clear(del);
+		}
 	}
 
 	return block;	
