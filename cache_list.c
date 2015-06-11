@@ -27,7 +27,7 @@ printf("Cache_List_Create\n");
 
 /*! Destruction d'une liste de blocs */
 void Cache_List_Delete(struct Cache_List *list){
-// printf("Cache_List_Delete\n");
+ printf("Cache_List_Delete\n");
 	struct Cache_List *elem = list;
  	struct Cache_List *del;
  	while(elem->next != NULL){
@@ -128,7 +128,12 @@ printf("Cache_List_Remove\n");
 	struct Cache_List *del;
 
 	if(!Cache_List_Is_Empty(list)){
-		while(elem->pheader != pbh && elem != NULL)elem = elem->next;
+		while(elem!= NULL){
+			if(elem->pheader==pbh){
+				break;
+			}else
+			elem = elem->next;
+		}
 		if(elem != NULL){
 			block = elem->pheader;
 			del = elem;
@@ -141,7 +146,7 @@ printf("Cache_List_Remove\n");
 			}else if(elem->next != NULL && elem->prev != NULL){
 				elem = elem->next;
 				elem->prev = del->prev;
-				elem->prev->next = elem;
+				(elem->prev)->next = elem;
 			}
 			
 			del->prev = NULL;
