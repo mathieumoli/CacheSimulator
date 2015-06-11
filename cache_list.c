@@ -150,8 +150,13 @@ void Cache_List_Clear(struct Cache_List *list){
 /*! Transférer un élément à la fin */
 void Cache_List_Move_To_End(struct Cache_List *list,struct Cache_Block_Header *pbh){
  //printf("Cache_List_Move_To_End\n");
+	struct Cache_List *elem = list;
+	struct Cache_List *del;
+	while(elem->next != NULL && elem->pheader != pbh){elem=elem->next;}
+	if(elem->next!=NULL){
  	Cache_List_Remove(list,pbh);
  	Cache_List_Append(list,pbh);
+ }
 }
 /*! Transférer un élément  au début */
 void Cache_List_Move_To_Begin(struct Cache_List *list,struct Cache_Block_Header *pbh){
