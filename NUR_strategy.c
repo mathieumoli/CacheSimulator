@@ -45,7 +45,7 @@ struct Cache_Block_Header *Strategy_Replace_Block(struct Cache *pcache){
 
 	// Si aucun bloc libre n'a été trouvé, on récupère le bloc NUR 
 	// (recherche du bloc dont la pondération rm est minimale)
-    	for (i = 0 ; i < pcache->nblocks ; i++){
+	for (i = 0 ; i < pcache->nblocks ; i++){
 		block = &pcache->headers[i];
 	
 		// Calcul de rm, rm = 2 * R + M
@@ -59,7 +59,7 @@ struct Cache_Block_Header *Strategy_Replace_Block(struct Cache *pcache){
 	    		min_rm = rm;
 	    		block_NUR = block;
 		}	
-    	}
+	}
 
 	return block_NUR; 
 }

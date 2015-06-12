@@ -197,10 +197,17 @@ void Cache_List_Move_To_End(Cache_List *list,Cache_Block_Header *pbh)
 /*! Transférer un élément  au début */
 void Cache_List_Move_To_Begin(Cache_List *list,Cache_Block_Header *pbh)
 {
-    //si pbh est deja en premiere place
-    // on ne fait rien
-  if((list->next)->pheader!=pbh){
-    Cache_List_Remove(list,pbh);
-    Cache_List_Prepend(list,pbh);
+    // si la liste n'est pas vide 
+    if(!Cache_List_Is_Empty(list)){
+        //si pbh est deja en premiere place
+        // on ne fait rien
+        if((list->next)->pheader!=pbh){
+            Cache_List_Remove(list,pbh);
+            Cache_List_Prepend(list,pbh);
+        }
+    }else{
+        //a la fin ou au debut peu importe car vide
+        Cache_List_Prepend(list,pbh);
+
     }
 }
